@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mapper.BorrowMapper" >
+  <resultMap id="BaseResultMap" type="pojo.Borrow" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="borrow_id" property="borrowId" jdbcType="INTEGER" />
+    <id column="book_id" property="bookId" jdbcType="CHAR" />
+    <result column="borrow_time" property="borrowTime" jdbcType="TIMESTAMP" />
+    <result column="should_r_time" property="shouldRTime" jdbcType="TIMESTAMP" />
+    <result column="is_return" property="isReturn" jdbcType="BIT" />
+    <result column="return_time" property="returnTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, borrow_id, book_id, borrow_time, should_r_time, is_return, return_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="pojo.BorrowExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from j2ee_borrow
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pojo.BorrowKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from j2ee_borrow
+    where id = #{id,jdbcType=INTEGER}
+      and borrow_id = #{borrowId,jdbcType=INTEGER}
+      and book_id = #{bookId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="pojo.BorrowKey" >
+    delete from j2ee_borrow
+    where id = #{id,jdbcType=INTEGER}
+      and borrow_id = #{borrowId,jdbcType=INTEGER}
+      and book_id = #{bookId,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.BorrowExample" >
+    delete from j2ee_borrow
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.Borrow" >
+    insert into j2ee_borrow (id, borrow_id, book_id, 
+      borrow_time, should_r_time, is_return, 
+      return_time)
+    values (#{id,jdbcType=INTEGER}, #{borrowId,jdbcType=INTEGER}, #{bookId,jdbcType=CHAR}, 
+      #{borrowTime,jdbcType=TIMESTAMP}, #{shouldRTime,jdbcType=TIMESTAMP}, #{isReturn,jdbcType=BIT}, 
+      #{returnTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.Borrow" >
+    insert into j2ee_borrow
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="borrowId != null" >
+        borrow_id,
+      </if>
+      <if test="bookId != null" >
+        book_id,
+      </if>
+      <if test="borrowTime != null" >
+        borrow_time,
+      </if>
+      <if test="shouldRTime != null" >
+        should_r_time,
+      </if>
+      <if test="isReturn != null" >
+        is_return,
+      </if>
+      <if test="returnTime != null" >
+        return_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="borrowId != null" >
+        #{borrowId,jdbcType=INTEGER},
+      </if>
+      <if test="bookId != null" >
+        #{bookId,jdbcType=CHAR},
+      </if>
+      <if test="borrowTime != null" >
+        #{borrowTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shouldRTime != null" >
+        #{shouldRTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isReturn != null" >
+        #{isReturn,jdbcType=BIT},
+      </if>
+      <if test="returnTime != null" >
+        #{returnTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.BorrowExample" resultType="java.lang.Integer" >
+    select count(*) from j2ee_borrow
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update j2ee_borrow
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.borrowId != null" >
+        borrow_id = #{record.borrowId,jdbcType=INTEGER},
+      </if>
+      <if test="record.bookId != null" >
+        book_id = #{record.bookId,jdbcType=CHAR},
+      </if>
+      <if test="record.borrowTime != null" >
+        borrow_time = #{record.borrowTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.shouldRTime != null" >
+        should_r_time = #{record.shouldRTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isReturn != null" >
+        is_return = #{record.isReturn,jdbcType=BIT},
+      </if>
+      <if test="record.returnTime != null" >
+        return_time = #{record.returnTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update j2ee_borrow
+    set id = #{record.id,jdbcType=INTEGER},
+      borrow_id = #{record.borrowId,jdbcType=INTEGER},
+      book_id = #{record.bookId,jdbcType=CHAR},
+      borrow_time = #{record.borrowTime,jdbcType=TIMESTAMP},
+      should_r_time = #{record.shouldRTime,jdbcType=TIMESTAMP},
+      is_return = #{record.isReturn,jdbcType=BIT},
+      return_time = #{record.returnTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.Borrow" >
+    update j2ee_borrow
+    <set >
+      <if test="borrowTime != null" >
+        borrow_time = #{borrowTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shouldRTime != null" >
+        should_r_time = #{shouldRTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isReturn != null" >
+        is_return = #{isReturn,jdbcType=BIT},
+      </if>
+      <if test="returnTime != null" >
+        return_time = #{returnTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+      and borrow_id = #{borrowId,jdbcType=INTEGER}
+      and book_id = #{bookId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.Borrow" >
+    update j2ee_borrow
+    set borrow_time = #{borrowTime,jdbcType=TIMESTAMP},
+      should_r_time = #{shouldRTime,jdbcType=TIMESTAMP},
+      is_return = #{isReturn,jdbcType=BIT},
+      return_time = #{returnTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+      and borrow_id = #{borrowId,jdbcType=INTEGER}
+      and book_id = #{bookId,jdbcType=CHAR}
+  </update>
+</mapper>

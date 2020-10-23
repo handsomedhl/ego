@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mapper.BooksMapper" >
+  <resultMap id="BaseResultMap" type="pojo.Books" >
+    <id column="book_id" property="bookId" jdbcType="VARCHAR" />
+    <result column="book_name" property="bookName" jdbcType="VARCHAR" />
+    <result column="book_type" property="bookType" jdbcType="BIT" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="press" property="press" jdbcType="VARCHAR" />
+    <result column="publish_date" property="publishDate" jdbcType="DATE" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="register_time" property="registerTime" jdbcType="TIMESTAMP" />
+    <result column="is_borrow" property="isBorrow" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    book_id, book_name, book_type, author, press, publish_date, price, register_time, 
+    is_borrow
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="pojo.BooksExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from j2ee_books
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from j2ee_books
+    where book_id = #{bookId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from j2ee_books
+    where book_id = #{bookId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.BooksExample" >
+    delete from j2ee_books
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.Books" >
+    insert into j2ee_books (book_id, book_name, book_type, 
+      author, press, publish_date, 
+      price, register_time, is_borrow
+      )
+    values (#{bookId,jdbcType=VARCHAR}, #{bookName,jdbcType=VARCHAR}, #{bookType,jdbcType=BIT}, 
+      #{author,jdbcType=VARCHAR}, #{press,jdbcType=VARCHAR}, #{publishDate,jdbcType=DATE}, 
+      #{price,jdbcType=DOUBLE}, #{registerTime,jdbcType=TIMESTAMP}, #{isBorrow,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.Books" >
+    insert into j2ee_books
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bookId != null" >
+        book_id,
+      </if>
+      <if test="bookName != null" >
+        book_name,
+      </if>
+      <if test="bookType != null" >
+        book_type,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="press != null" >
+        press,
+      </if>
+      <if test="publishDate != null" >
+        publish_date,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="registerTime != null" >
+        register_time,
+      </if>
+      <if test="isBorrow != null" >
+        is_borrow,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bookId != null" >
+        #{bookId,jdbcType=VARCHAR},
+      </if>
+      <if test="bookName != null" >
+        #{bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="bookType != null" >
+        #{bookType,jdbcType=BIT},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="press != null" >
+        #{press,jdbcType=VARCHAR},
+      </if>
+      <if test="publishDate != null" >
+        #{publishDate,jdbcType=DATE},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="registerTime != null" >
+        #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isBorrow != null" >
+        #{isBorrow,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.BooksExample" resultType="java.lang.Integer" >
+    select count(*) from j2ee_books
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update j2ee_books
+    <set >
+      <if test="record.bookId != null" >
+        book_id = #{record.bookId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bookName != null" >
+        book_name = #{record.bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bookType != null" >
+        book_type = #{record.bookType,jdbcType=BIT},
+      </if>
+      <if test="record.author != null" >
+        author = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.press != null" >
+        press = #{record.press,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publishDate != null" >
+        publish_date = #{record.publishDate,jdbcType=DATE},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=DOUBLE},
+      </if>
+      <if test="record.registerTime != null" >
+        register_time = #{record.registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isBorrow != null" >
+        is_borrow = #{record.isBorrow,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update j2ee_books
+    set book_id = #{record.bookId,jdbcType=VARCHAR},
+      book_name = #{record.bookName,jdbcType=VARCHAR},
+      book_type = #{record.bookType,jdbcType=BIT},
+      author = #{record.author,jdbcType=VARCHAR},
+      press = #{record.press,jdbcType=VARCHAR},
+      publish_date = #{record.publishDate,jdbcType=DATE},
+      price = #{record.price,jdbcType=DOUBLE},
+      register_time = #{record.registerTime,jdbcType=TIMESTAMP},
+      is_borrow = #{record.isBorrow,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.Books" >
+    update j2ee_books
+    <set >
+      <if test="bookName != null" >
+        book_name = #{bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="bookType != null" >
+        book_type = #{bookType,jdbcType=BIT},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="press != null" >
+        press = #{press,jdbcType=VARCHAR},
+      </if>
+      <if test="publishDate != null" >
+        publish_date = #{publishDate,jdbcType=DATE},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="registerTime != null" >
+        register_time = #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isBorrow != null" >
+        is_borrow = #{isBorrow,jdbcType=BIT},
+      </if>
+    </set>
+    where book_id = #{bookId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.Books" >
+    update j2ee_books
+    set book_name = #{bookName,jdbcType=VARCHAR},
+      book_type = #{bookType,jdbcType=BIT},
+      author = #{author,jdbcType=VARCHAR},
+      press = #{press,jdbcType=VARCHAR},
+      publish_date = #{publishDate,jdbcType=DATE},
+      price = #{price,jdbcType=DOUBLE},
+      register_time = #{registerTime,jdbcType=TIMESTAMP},
+      is_borrow = #{isBorrow,jdbcType=BIT}
+    where book_id = #{bookId,jdbcType=VARCHAR}
+  </update>
+</mapper>

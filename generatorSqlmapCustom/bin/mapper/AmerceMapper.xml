@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mapper.AmerceMapper" >
+  <resultMap id="BaseResultMap" type="pojo.Amerce" >
+    <id column="amerce_id" property="amerceId" jdbcType="INTEGER" />
+    <result column="borrow_id" property="borrowId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="book_name" property="bookName" jdbcType="VARCHAR" />
+    <result column="book_id" property="bookId" jdbcType="CHAR" />
+    <result column="borrow_time" property="borrowTime" jdbcType="TIMESTAMP" />
+    <result column="should_r_time" property="shouldRTime" jdbcType="TIMESTAMP" />
+    <result column="return_time" property="returnTime" jdbcType="TIMESTAMP" />
+    <result column="fines" property="fines" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    amerce_id, borrow_id, name, book_name, book_id, borrow_time, should_r_time, return_time, 
+    fines
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="pojo.AmerceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from j2ee_amerce
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from j2ee_amerce
+    where amerce_id = #{amerceId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from j2ee_amerce
+    where amerce_id = #{amerceId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.AmerceExample" >
+    delete from j2ee_amerce
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.Amerce" >
+    insert into j2ee_amerce (amerce_id, borrow_id, name, 
+      book_name, book_id, borrow_time, 
+      should_r_time, return_time, fines
+      )
+    values (#{amerceId,jdbcType=INTEGER}, #{borrowId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{bookName,jdbcType=VARCHAR}, #{bookId,jdbcType=CHAR}, #{borrowTime,jdbcType=TIMESTAMP}, 
+      #{shouldRTime,jdbcType=TIMESTAMP}, #{returnTime,jdbcType=TIMESTAMP}, #{fines,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.Amerce" >
+    insert into j2ee_amerce
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="amerceId != null" >
+        amerce_id,
+      </if>
+      <if test="borrowId != null" >
+        borrow_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="bookName != null" >
+        book_name,
+      </if>
+      <if test="bookId != null" >
+        book_id,
+      </if>
+      <if test="borrowTime != null" >
+        borrow_time,
+      </if>
+      <if test="shouldRTime != null" >
+        should_r_time,
+      </if>
+      <if test="returnTime != null" >
+        return_time,
+      </if>
+      <if test="fines != null" >
+        fines,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="amerceId != null" >
+        #{amerceId,jdbcType=INTEGER},
+      </if>
+      <if test="borrowId != null" >
+        #{borrowId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="bookName != null" >
+        #{bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="bookId != null" >
+        #{bookId,jdbcType=CHAR},
+      </if>
+      <if test="borrowTime != null" >
+        #{borrowTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shouldRTime != null" >
+        #{shouldRTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returnTime != null" >
+        #{returnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fines != null" >
+        #{fines,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.AmerceExample" resultType="java.lang.Integer" >
+    select count(*) from j2ee_amerce
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update j2ee_amerce
+    <set >
+      <if test="record.amerceId != null" >
+        amerce_id = #{record.amerceId,jdbcType=INTEGER},
+      </if>
+      <if test="record.borrowId != null" >
+        borrow_id = #{record.borrowId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bookName != null" >
+        book_name = #{record.bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bookId != null" >
+        book_id = #{record.bookId,jdbcType=CHAR},
+      </if>
+      <if test="record.borrowTime != null" >
+        borrow_time = #{record.borrowTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.shouldRTime != null" >
+        should_r_time = #{record.shouldRTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.returnTime != null" >
+        return_time = #{record.returnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.fines != null" >
+        fines = #{record.fines,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update j2ee_amerce
+    set amerce_id = #{record.amerceId,jdbcType=INTEGER},
+      borrow_id = #{record.borrowId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      book_name = #{record.bookName,jdbcType=VARCHAR},
+      book_id = #{record.bookId,jdbcType=CHAR},
+      borrow_time = #{record.borrowTime,jdbcType=TIMESTAMP},
+      should_r_time = #{record.shouldRTime,jdbcType=TIMESTAMP},
+      return_time = #{record.returnTime,jdbcType=TIMESTAMP},
+      fines = #{record.fines,jdbcType=DOUBLE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.Amerce" >
+    update j2ee_amerce
+    <set >
+      <if test="borrowId != null" >
+        borrow_id = #{borrowId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="bookName != null" >
+        book_name = #{bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="bookId != null" >
+        book_id = #{bookId,jdbcType=CHAR},
+      </if>
+      <if test="borrowTime != null" >
+        borrow_time = #{borrowTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shouldRTime != null" >
+        should_r_time = #{shouldRTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returnTime != null" >
+        return_time = #{returnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fines != null" >
+        fines = #{fines,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where amerce_id = #{amerceId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.Amerce" >
+    update j2ee_amerce
+    set borrow_id = #{borrowId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      book_name = #{bookName,jdbcType=VARCHAR},
+      book_id = #{bookId,jdbcType=CHAR},
+      borrow_time = #{borrowTime,jdbcType=TIMESTAMP},
+      should_r_time = #{shouldRTime,jdbcType=TIMESTAMP},
+      return_time = #{returnTime,jdbcType=TIMESTAMP},
+      fines = #{fines,jdbcType=DOUBLE}
+    where amerce_id = #{amerceId,jdbcType=INTEGER}
+  </update>
+</mapper>
